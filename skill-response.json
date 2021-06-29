@@ -1,0 +1,438 @@
+{
+  "intents": [
+    {
+      "intent": "ترحيب",
+      "examples": [
+        {
+          "text": "السلام عليكم"
+        },
+        {
+          "text": "حجز"
+        },
+        {
+          "text": "سلام"
+        },
+        {
+          "text": "مرحبا"
+        },
+        {
+          "text": "هاي"
+        },
+        {
+          "text": "هلا"
+        }
+      ],
+      "description": "ترحيب"
+    },
+    {
+      "intent": "حجز",
+      "examples": [
+        {
+          "text": "اوك"
+        },
+        {
+          "text": "اوكيه"
+        },
+        {
+          "text": "اي"
+        },
+        {
+          "text": "ايه"
+        },
+        {
+          "text": "ايوه"
+        },
+        {
+          "text": "تمام"
+        },
+        {
+          "text": "طيب"
+        },
+        {
+          "text": "نعم"
+        },
+        {
+          "text": "يس"
+        }
+      ],
+      "description": "حجز موعد"
+    },
+    {
+      "intent": "رفض",
+      "examples": [
+        {
+          "text": "شكرا"
+        },
+        {
+          "text": "لا"
+        },
+        {
+          "text": "لا خلاص"
+        },
+        {
+          "text": "مايحتاج"
+        },
+        {
+          "text": "نو"
+        }
+      ],
+      "description": "رفض حجز"
+    },
+    {
+      "intent": "طواري",
+      "examples": [
+        {
+          "text": "ارتفاع السكر"
+        },
+        {
+          "text": "السكر عالي"
+        },
+        {
+          "text": "السكر مرتفع"
+        },
+        {
+          "text": "زيادة السكر"
+        }
+      ],
+      "description": "ارتفاع السكر"
+    },
+    {
+      "intent": "طواريء",
+      "examples": [
+        {
+          "text": "انخفاض السكر"
+        },
+        {
+          "text": "نزول"
+        },
+        {
+          "text": "نزول السكر"
+        }
+      ],
+      "description": "انخفاض السكر"
+    },
+    {
+      "intent": "مافهمت",
+      "examples": [
+        {
+          "text": "ايش يعني"
+        },
+        {
+          "text": "كيف يعني"
+        },
+        {
+          "text": "لم افهم"
+        },
+        {
+          "text": "مافهمت"
+        },
+        {
+          "text": "وش الحالة الصحية"
+        }
+      ],
+      "description": "في حال المريض لم يستطيع ادخال اجابة"
+    }
+  ],
+  "entities": [
+    {
+      "entity": "sys-date",
+      "values": [],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "sys-time",
+      "values": [],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "حجز",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "اي",
+          "synonyms": [
+            "ايوه",
+            "نعم",
+            "يس"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    }
+  ],
+  "metadata": {
+    "api_version": {
+      "major_version": "v2",
+      "minor_version": "2018-11-08"
+    }
+  },
+  "dialog_nodes": [
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_9_1624982018003",
+      "context": {
+        "date": "@sys-date"
+      },
+      "conditions": "@sys-date",
+      "event_name": "input",
+      "dialog_node": "handler_1_1624982018014"
+    },
+    {
+      "type": "event_handler",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": ":الوقت"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "slot_10_1624982047772",
+      "event_name": "focus",
+      "dialog_node": "handler_1_1624982047772",
+      "previous_sibling": "handler_4_1624982047772"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_10_1624982047772",
+      "context": {
+        "time": "@sys-time"
+      },
+      "conditions": "@sys-time",
+      "event_name": "input",
+      "dialog_node": "handler_4_1624982047772"
+    },
+    {
+      "type": "event_handler",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": ":اليوم"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "slot_9_1624982018003",
+      "event_name": "focus",
+      "dialog_node": "handler_8_1624982018014",
+      "previous_sibling": "handler_1_1624982018014"
+    },
+    {
+      "type": "standard",
+      "title": "توضيح",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "ارجو التوضيح بنسبة السكر للمريض لتقديم المساعده اكتب مثلا - ارتفاع السكر - انخفاض السكر"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "#مافهمت",
+      "dialog_node": "node_10_1624981143737",
+      "previous_sibling": "node_9_1624978214657"
+    },
+    {
+      "type": "standard",
+      "title": "رفض موعد",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "نتمنى لكم السلامة"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "#رفض",
+      "dialog_node": "node_4_1624981871808",
+      "previous_sibling": "node_8_1624981842552"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "عدم تناول أي وجبة من الطعام لعدم ارتفاع السكر، بالإضافة لأهمية شرب الماء بكميات كافية لحسين لزوجة الدم وخشونة الشرايين، ما يساعد على تحسين تدفق الدم في الشرايين والأوردة، فيساهم في خفض نسبة السكر، ومساعدة الكلى على التخلص من السكر الزائد في الدم عن طريق البول."
+              },
+              {
+                "text": "هل تريد حجز موعد عند طبيب؟"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "multiline"
+          }
+        ]
+      },
+      "conditions": "#طواري",
+      "dialog_node": "node_5_1624980433978",
+      "previous_sibling": "node_9_1624980221321"
+    },
+    {
+      "type": "frame",
+      "title": "حجز موعد",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "تم الحجز نتمنى لكم السلامة"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "#حجز && @حجز",
+      "dialog_node": "node_8_1624981842552",
+      "previous_sibling": "node_5_1624980433978"
+    },
+    {
+      "type": "standard",
+      "title": "ترحيب",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "ياهلا فيكك"
+              },
+              {
+                "text": "ادخل اسم الحالة الصحية لمريض السكر لتقديم المساعدة"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "multiline"
+          }
+        ]
+      },
+      "conditions": "#ترحيب",
+      "dialog_node": "node_9_1624978214657",
+      "previous_sibling": "مرحبا"
+    },
+    {
+      "type": "standard",
+      "title": "انخفاض السكر",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "إعطاؤه قطعة من السكر تحت اللسان، أو محلول سكري عبر الوريد حال كان المريض فاقدًا للوعي، ومراقبة درجة حرارته والمحافظة عليها ضمن الحد الطبيعي، ومراقبة التنفس والضغط باستمرار حتى التوجه إلى أقرب مستشفى"
+              },
+              {
+                "text": "هل تريد حجز موعد عند طبيب؟"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "multiline"
+          }
+        ]
+      },
+      "conditions": "#طواريء",
+      "dialog_node": "node_9_1624980221321",
+      "previous_sibling": "node_10_1624981143737"
+    },
+    {
+      "type": "slot",
+      "parent": "node_8_1624981842552",
+      "variable": "$time",
+      "dialog_node": "slot_10_1624982047772",
+      "previous_sibling": "slot_9_1624982018003"
+    },
+    {
+      "type": "slot",
+      "parent": "node_8_1624981842552",
+      "variable": "$date",
+      "dialog_node": "slot_9_1624982018003"
+    },
+    {
+      "type": "standard",
+      "title": "أي شيء آخر",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "لم أفهم، يمكنك محاولة اعادة الصياغة"
+              },
+              {
+                "text": "هل يمكنك اعادة صياغة عبارتك؟ أنا لا فهم"
+              },
+              {
+                "text": "لم أفهم قصدك"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "anything_else",
+      "dialog_node": "أي شيء آخر",
+      "previous_sibling": "node_4_1624981871808",
+      "disambiguation_opt_out": true
+    },
+    {
+      "type": "standard",
+      "title": "مرحبا",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "مرحبا، كيف يمكنني مساعدتك؟"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "welcome",
+      "dialog_node": "مرحبا"
+    }
+  ],
+  "counterexamples": [],
+  "system_settings": {
+    "disambiguation": {
+      "prompt": ":هل قصدت",
+      "enabled": true,
+      "randomize": true,
+      "max_suggestions": 5,
+      "suggestion_text_policy": "title",
+      "none_of_the_above_prompt": "كل ما سبق خطأ"
+    },
+    "human_agent_assist": {
+      "prompt": ":هل قصدت"
+    }
+  },
+  "learning_opt_out": false,
+  "name": "response",
+  "language": "ar",
+  "description": ""
+}
